@@ -1,25 +1,25 @@
-from dataclasses import dataclass
+"""Compatibility wrapper for the original module path.
 
+New code should import :mod:`crypto_microstructure_trader.simulator`.
+"""
 
-@dataclass(frozen=True)
-class Event:
-    name: str
-    strength: float
-    timestamp: float
+from __future__ import annotations
 
+import sys
+from pathlib import Path
 
-@dataclass(frozen=True)
-class Decision:
-    action: str
-    score: float
-    reason: str
+try:
+    from crypto_microstructure_trader.simulator import Decision, Event, EventScorer
+except ModuleNotFoundError as exc:
+    if exc.name != "crypto_microstructure_trader":
+        raise
+    # Preserve ``python modules/event-simulation-core/simulator.py`` from a
+    # source checkout where the package has not yet been installed.
+    source_root = Path(__file__).resolve().parents[2] / "src"
+    sys.path.insert(0, str(source_root))
+    from crypto_microstructure_trader.simulator import Decision, Event, EventScorer
 
-
-class EventScorer:
-    def score(self, event: Event) -> Decision:
-        normalized = max(0.0, min(1.0, event.strength))
-        action = "accept" if normalized >= 0.72 else "observe"
-        return Decision(action=action, score=normalized, reason=event.name)
+__all__ = ["Decision", "Event", "EventScorer"]
 
 
 if __name__ == "__main__":
