@@ -1,25 +1,22 @@
-# v2.2 Replay Lab Summary
+# Legacy v2.2 replay-lab summary
 
-This note records the v2.2 offline replay-lab update.
+This document preserves and corrects the intent of the original upload. It is not a current release
+specification.
 
-## Local package status
+## What the upload actually demonstrated
 
-- tests: 30 passed
-- default mode: offline / dry-run / paper validation
-- no exchange credentials
-- no live order submission
-- no automatic production action
+- serializing small, already-produced events to JSONL;
+- hashing event sequences;
+- summarizing a list of latency numbers; and
+- checking whether two event sequences produced the same fingerprint.
 
-## Added locally
+## Withdrawn claims
 
-- deterministic event store
-- event fingerprinting
-- latency summary model
-- conservative queue-position estimate
-- replay consistency validator
-- malformed order-book normalization hardening
-- malformed kline filtering and open/close fallback
+The upload did not contain reproducible evidence for its “30 passed” statement. It also did not
+implement market-data ingestion, market replay execution, queue-position estimation, order-book
+normalization, kline filtering, dry-run/paper order execution, virtual fills, a ledger, fee
+accounting, or exchange integration. Earlier wording suggesting otherwise was inaccurate.
 
-## Next target
-
-v2.3 should add paper ledger, virtual fills, fee accounting, rejected-signal attribution, and 30-second fail-fast outcome tracking.
+The current v0.1.0 package improves validation, persistence, comparison, and test coverage, but it
+still does not implement those missing trading-system capabilities. See the root `README.md` for
+the supported scope and verification commands.
